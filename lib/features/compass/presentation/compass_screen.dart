@@ -41,7 +41,7 @@ class _CompassScreenState extends State<CompassScreen> {
                   const Text(
                     'Thiết lập Mệnh Quái (Bát Trạch)',
                     style: TextStyle(
-                      color: AppColors.primaryGold,
+                      color: AppColors.woodAccent,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -74,12 +74,14 @@ class _CompassScreenState extends State<CompassScreen> {
                       ChoiceChip(
                         label: const Text('Nam'),
                         selected: selectedGender == Gender.male,
+                        selectedColor: AppColors.woodAccent.withOpacity(0.3),
                         onSelected: (val) => setModalState(() => selectedGender = Gender.male),
                       ),
                       const SizedBox(width: 8),
                       ChoiceChip(
                         label: const Text('Nữ'),
                         selected: selectedGender == Gender.female,
+                        selectedColor: AppColors.woodAccent.withOpacity(0.3),
                         onSelected: (val) => setModalState(() => selectedGender = Gender.female),
                       ),
                     ],
@@ -93,7 +95,7 @@ class _CompassScreenState extends State<CompassScreen> {
                     ),
                     child: Text(
                       'Cung Mạng: ${calculatedCung.vietnameseName} (${calculatedCung.nguHanh}) - ${calculatedCung.nhom}',
-                      style: const TextStyle(color: AppColors.primaryGold, fontWeight: FontWeight.w600),
+                      style: const TextStyle(color: AppColors.woodAccent, fontWeight: FontWeight.w600),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -102,8 +104,8 @@ class _CompassScreenState extends State<CompassScreen> {
                     height: 48,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryGold,
-                        foregroundColor: Colors.black,
+                        backgroundColor: AppColors.woodAccent,
+                        foregroundColor: const Color(0xFF141414),
                       ),
                       onPressed: () {
                         setState(() {
@@ -128,12 +130,12 @@ class _CompassScreenState extends State<CompassScreen> {
     return Scaffold(
       backgroundColor: AppColors.darkBackground,
       appBar: AppBar(
-        title: const Text('La Bàn Phong Thuỷ', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('La Bàn Phong Thuỷ', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.ivoryWhite)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.account_circle_outlined, color: AppColors.primaryGold),
+            icon: const Icon(Icons.account_circle_outlined, color: AppColors.woodAccent),
             tooltip: 'Cài đặt Mệnh Quái',
             onPressed: _showProfileModal,
           ),
@@ -146,13 +148,13 @@ class _CompassScreenState extends State<CompassScreen> {
             return Center(
               child: Text(
                 'Lỗi cảm biến: ${snapshot.error}',
-                style: const TextStyle(color: AppColors.badDirection),
+                style: const TextStyle(color: Color(0xFF9E2A2B)),
               ),
             );
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: AppColors.primaryGold));
+            return const Center(child: CircularProgressIndicator(color: AppColors.woodAccent));
           }
 
           final rawHeading = snapshot.data?.heading;
@@ -190,14 +192,15 @@ class _CompassScreenState extends State<CompassScreen> {
                 Text(
                   '${currentHeading.toStringAsFixed(0)}°',
                   style: const TextStyle(
-                    fontSize: 40,
+                    fontSize: 42,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primaryGold,
+                    color: AppColors.woodAccent,
+                    letterSpacing: 0.5,
                   ),
                 ),
                 Text(
                   currentDirection,
-                  style: const TextStyle(fontSize: 16, color: Colors.white70, letterSpacing: 0.5),
+                  style: const TextStyle(fontSize: 16, color: Color(0xFFD7CCC8), letterSpacing: 0.5),
                 ),
                 const SizedBox(height: 16),
 
@@ -214,38 +217,38 @@ class _CompassScreenState extends State<CompassScreen> {
                           activeCungPhi: _activeCungPhi,
                         ),
                       ),
-                      // Precision Red Needle (Kim Chỉ Nam dài xuyên tâm TRƯỚC - SAU)
+                      // Precision Needle (Kim Chỉ Nam mộc bản TRƯỚC - SAU)
                       IgnorePointer(
                         child: Container(
-                          width: 3.5,
+                          width: 3.0,
                           height: 375,
-                          color: const Color(0xFFD32F2F).withOpacity(0.9),
+                          color: const Color(0xFF9E2A2B).withOpacity(0.9),
                         ),
                       ),
                       // Mũi tên định hướng phương TRƯỚC (Chính đỉnh)
                       const Positioned(
                         top: 0,
-                        child: Icon(Icons.arrow_drop_down, color: Color(0xFFD32F2F), size: 36),
+                        child: Icon(Icons.arrow_drop_down, color: Color(0xFF9E2A2B), size: 36),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 18),
 
-                // Active Direction Auspicious Status Pill
+                // Active Direction Auspicious Status Pill (Tông Gỗ & Đen mộc mạc)
                 if (activeDirectionMeaning != null)
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 24),
                     padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
                     decoration: BoxDecoration(
                       color: activeDirectionMeaning.isGood
-                          ? AppColors.goodDirection.withOpacity(0.15)
-                          : AppColors.badDirection.withOpacity(0.15),
+                          ? const Color(0xFF282522)
+                          : const Color(0xFF1E1A17),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: activeDirectionMeaning.isGood
-                            ? AppColors.goodDirection
-                            : AppColors.badDirection,
+                            ? AppColors.woodAccent
+                            : const Color(0xFF5A4D41),
                         width: 1.2,
                       ),
                     ),
@@ -253,21 +256,23 @@ class _CompassScreenState extends State<CompassScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          activeDirectionMeaning.isGood ? Icons.check_circle_outline : Icons.warning_amber_rounded,
+                          activeDirectionMeaning.isGood ? Icons.wb_sunny_outlined : Icons.nightlight_round_outlined,
                           color: activeDirectionMeaning.isGood
-                              ? AppColors.goodDirection
-                              : AppColors.badDirection,
+                              ? AppColors.woodAccent
+                              : const Color(0xFFB0BEC5),
                           size: 20,
                         ),
                         const SizedBox(width: 8),
-                        Text(
-                          '${activeDirectionMeaning.name} (${activeDirectionMeaning.isGood ? "Cát" : "Hung"}): ${activeDirectionMeaning.description}',
-                          style: TextStyle(
-                            color: activeDirectionMeaning.isGood
-                                ? AppColors.goodDirection
-                                : AppColors.badDirection,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13,
+                        Expanded(
+                          child: Text(
+                            '${activeDirectionMeaning.name} (${activeDirectionMeaning.isGood ? "Cát" : "Hung"}): ${activeDirectionMeaning.description}',
+                            style: TextStyle(
+                              color: activeDirectionMeaning.isGood
+                                  ? const Color(0xFFFAF6EE)
+                                  : const Color(0xFFB0BEC5),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                            ),
                           ),
                         ),
                       ],

@@ -56,12 +56,12 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
     return Scaffold(
       backgroundColor: AppColors.darkBackground,
       appBar: AppBar(
-        title: const Text('Tra Cứu Bát Quái & Phong Thuỷ', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('Tra Cứu Bát Quái & Phong Thuỷ', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.ivoryWhite)),
         backgroundColor: AppColors.surfaceCard,
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh, color: AppColors.primaryGold),
+            icon: const Icon(Icons.refresh, color: AppColors.woodAccent),
             tooltip: 'Tải lại trang',
             onPressed: () => _controller.reload(),
           ),
@@ -93,8 +93,8 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
                     const SizedBox(height: 20),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryGold,
-                        foregroundColor: Colors.black,
+                        backgroundColor: AppColors.woodAccent,
+                        foregroundColor: const Color(0xFF141414),
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       ),
                       onPressed: () => _controller.reload(),
@@ -109,7 +109,7 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
             LinearProgressIndicator(
               value: _loadingProgress / 100.0,
               backgroundColor: Colors.transparent,
-              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primaryGold),
+              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.woodAccent),
             ),
         ],
       ),

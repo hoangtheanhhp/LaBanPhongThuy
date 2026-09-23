@@ -19,10 +19,10 @@ class PhongThuyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: AppColors.darkBackground,
-        primaryColor: AppColors.primaryGold,
+        primaryColor: AppColors.woodAccent,
         colorScheme: const ColorScheme.dark(
-          primary: AppColors.primaryGold,
-          secondary: AppColors.accentAmber,
+          primary: AppColors.woodAccent,
+          secondary: AppColors.woodBorder,
           surface: AppColors.surfaceCard,
         ),
       ),
@@ -56,8 +56,8 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         backgroundColor: AppColors.surfaceCard,
-        selectedItemColor: AppColors.primaryGold,
-        unselectedItemColor: Colors.white54,
+        selectedItemColor: AppColors.woodAccent,
+        unselectedItemColor: Colors.white38,
         onTap: (index) => setState(() => _currentIndex = index),
         items: const [
           BottomNavigationBarItem(

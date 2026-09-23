@@ -1,78 +1,49 @@
 ---
-name: Phong Thuy Compass Design System
-version: 1.0.0
-description: Design specification for the Vietnamese Traditional Bat Trach Feng Shui Compass Mobile App.
+name: Phong Thuy Minimalist Wood Monochrome Design System
+version: 2.0.0
+description: Minimalist warm wood, crisp black and ivory white aesthetic for traditional Feng Shui compass.
 colors:
-  background: "#121212"
-  surface: "#1E1E1E"
-  surfaceElevated: "#2A2A2A"
-  goldAccent: "#FFD700"
-  northRed: "#E50914"
-  auspiciousBg: "#FFF3B0"
-  auspiciousText: "#B30000"
-  inauspiciousBg: "#1B4332"
-  inauspiciousText: "#FFFFFF"
-  cardinalBg: "#E50914"
+  background: "#121110"          # Warm dark walnut charcoal
+  surface: "#1C1A18"             # Deep warm wood tone
+  surfaceElevated: "#282522"     # Elevated walnut wood
+  woodAccent: "#C49A6C"          # Warm golden cedar / antique bronze wood
+  woodBorder: "#5A4D41"          # Natural dark wood outline
+  ivoryWhite: "#FDFBF7"          # Warm ivory rice paper white
+  charcoalBlack: "#141414"       # Deep ink black
+  northRed: "#C62828"            # Classic vermilion cinnabar red
+  
+  # Minimalist Dial Palette (Wood - White - Black)
+  dialBg: "#FAF6EE"              # Aged paper / light cypress wood grain background
+  auspiciousBg: "#EFE6D5"        # Warm light wood paper for Cát (Auspicious)
+  auspiciousText: "#8D2817"      # Deep cinnabar seal red
+  inauspiciousBg: "#2B2825"      # Dark charred wood for Hung (Inauspicious)
+  inauspiciousText: "#FAF6EE"    # Crisp ivory text
+  cardinalBg: "#8D2817"          # Vermilion seal red for cardinal points (Tý, Ngọ, Mão, Dậu)
   cardinalText: "#FFFFFF"
-  son24Bg: "#FFFFFF"
-  son24Text: "#1A1A1A"
-  directionBg: "#E8F5E9"
-  directionText: "#1B5E20"
-  cungMangText: "#0D47A1"
-  cungBanMenhBg: "#E50914"
-  cungBanMenhText: "#FFFFFF"
-  trigramRed: "#D32F2F"
-  borderRing: "#1565C0"
-  yinYangGreen: "#1B5E20"
-  yinYangYellow: "#FFD700"
+  ringDivider: "#4A3F35"         # Fine woodblock print ink lines
+  trigramLines: "#141414"        # Traditional black ink woodblock trigrams
+  yinYangWood: "#8D6E53"         # Warm natural sandalwood
+  yinYangDark: "#1E1A17"         # Dark ebony wood
 
 typography:
   degreeDisplay:
-    fontSize: 40px
+    fontSize: 42px
     fontWeight: 700
-    color: "{colors.goldAccent}"
+    color: "{colors.woodAccent}"
   directionSubtitle:
     fontSize: 16px
     fontWeight: 500
-    color: "#B0B0B0"
-  statusBadge:
-    fontSize: 13px
-    fontWeight: 600
-  dialDegreeTicks:
-    fontSize: 6.8px
-    fontWeight: 700
-  dialPhucDuc:
-    fontSize: 5.5px
-    fontWeight: 700
-  dialBatTrach:
-    fontSize: 9.5px
-    fontWeight: 800
-  dialSon24:
-    fontSize: 7.5px
-    fontWeight: 700
-  dialHuongDiaLy:
-    fontSize: 7.0px
-    fontWeight: 700
-  dialCungMang:
-    fontSize: 9.0px
-    fontWeight: 800
+    color: "#D7CCC8"
 ---
 
-# Thiết Kế Chi Tiết La Bàn Phong Thuỷ Bát Trạch
+# Thiết Kế Tối Giản Tông Gỗ - Trắng - Đen (Minimalist Wood & Monochrome)
 
-## 1. Tổng Quan & Cảm Hứng Thiết Kế
-Thiết kế dựa trên nguyên mẫu La Bàn Bát Trạch truyền thống (như mẫu 1997 Đinh Sửu), tái hiện đầy đủ các tầng tri thức phong thuỷ cổ truyền nhưng tinh chỉnh tương phản và tỉ lệ để hiển thị sắc nét, gọn gàng trên thiết bị di động:
-- **Kích thước La Bàn:** Tối ưu hiển thị chiếm trọn chiều ngang màn hình di động (`LayoutBuilder` linh hoạt hoặc đường kính 370px).
-- **Hệ Thống Màu Sắc:**
-  - 4 Cung Cát (*Sinh Khí, Thiên Y, Diên Niên, Phục Vị*): Nền vàng kem ấm sang trọng `#FFF3B0`, chữ đỏ trầm `#B30000` tạo độ tương phản cao, dễ đọc, không chói.
-  - 4 Cung Hung (*Tuyệt Mạng, Ngũ Quỷ, Lục Sát, Họa Hại*): Nền xanh lục bảo sẫm `#1B4332`, chữ trắng tinh khiết `#FFFFFF` sắc nét.
-  - Vành 24 Sơn Hướng: Nền trắng ngà thanh thoát, chữ xám đen `#1A1A1A`, 4 sơn chủ (*Tý, Ngọ, Mão, Dậu*) nhấn nền đỏ rực `#E50914` chữ trắng.
-  - Vành 8 Hướng Địa Lý: Nền ngọc bích nhạt `#E8F5E9`, chữ xanh thẫm `#1B5E20`.
-  - Vành Cung Mạng: Chữ xanh biển đậm cổ truyền `#0D47A1`, cung bản mệnh của gia chủ được bao bọc nền đỏ rực.
-  - Vành Quẻ Hào: Đỏ son `#D32F2F` truyền thống, vạch hào mảnh sắc sảo.
-  - Tâm Thái Cực: Âm Dương song hành Vàng Kim `#FFD700` & Xanh Lục Bản Mệnh `#1B5E20`.
-
-## 2. Tinh Chỉnh Cỡ Chữ & Bố Cục
-- Giảm cỡ chữ của toàn bộ các tầng la bàn từ 25% - 40% so với bản trước để chữ nằm trọn hoàn hảo trong lòng các vành cung, không bị đè vạch hay tràn viền.
-- Tăng diện tích hiển thị của mặt la bàn, điều chỉnh lại độ dày các vành khuyên để tạo khoảng thở (padding) tối ưu cho từng chữ.
-- Giảm độ cao phần hiển thị số độ ở đỉnh màn hình từ `54px` xuống `40px`, giảm khoảng cách đệm (padding) để la bàn có không gian mở rộng tối đa trên màn hình điện thoại.
+## Triết Lý Thiết Kế
+Thay vì sử dụng nhiều màu sắc rực rỡ hiện đại gây chói mắt và khó tập trung, giao diện chuyển sang **phong cách cổ điển mộc mạc tối giản (Wabi-Sabi / Oriental Woodcraft)**:
+1. **Chất liệu thị giác:** Tông màu gỗ đàn hương ấm (`#1C1A18`), giấy dó ngà (`#FAF6EE`), mực nho đen tuyền (`#141414`) và điểm nhấn son đỏ chu sa (`#8D2817`).
+2. **Độ tương phản & Tối giản:**
+   - 4 Cung Cát: Nền giấy mộc ngà ấm (`#EFE6D5`), chữ son trầm sang trọng.
+   - 4 Cung Hung: Nền gỗ mun cháy sẫm (`#2B2825`), chữ trắng ngà sắc nét.
+   - Các đường viền nan quạt và vành chia độ sử dụng nét mực khắc gỗ thanh mảnh (`#4A3F35`), loại bỏ hoàn toàn các màu xanh lam chói mắt trước đây.
+3. **Độ chính xác phương vị La Bàn:**
+   - Góc hiển thị la bàn chuẩn quốc tế: Khi người dùng cầm điện thoại quay về hướng nào (Heading $\theta$), đĩa la bàn xoay đối ứng góc $-\theta$ để đỉnh máy chỉ đúng phương vị thực tế.
