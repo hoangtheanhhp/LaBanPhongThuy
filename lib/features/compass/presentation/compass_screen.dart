@@ -190,16 +190,16 @@ class _CompassScreenState extends State<CompassScreen> {
                 Text(
                   '${currentHeading.toStringAsFixed(0)}°',
                   style: const TextStyle(
-                    fontSize: 54,
+                    fontSize: 40,
                     fontWeight: FontWeight.bold,
                     color: AppColors.primaryGold,
                   ),
                 ),
                 Text(
                   currentDirection,
-                  style: const TextStyle(fontSize: 20, color: Colors.white70, letterSpacing: 0.5),
+                  style: const TextStyle(fontSize: 16, color: Colors.white70, letterSpacing: 0.5),
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: 16),
 
                 // Compass Viewport
                 Center(
@@ -210,27 +210,27 @@ class _CompassScreenState extends State<CompassScreen> {
                       Transform.rotate(
                         angle: -CompassMath.toRadians(_smoothHeading),
                         child: BaguaDial(
-                          size: 350,
+                          size: 375, // Tăng kích thước la bàn lớn hơn, rõ nét hơn
                           activeCungPhi: _activeCungPhi,
                         ),
                       ),
-                      // Precision Red Needle (Kim Chỉ Nam dài xuyên tâm TRƯỚC - SAU như ảnh mẫu)
+                      // Precision Red Needle (Kim Chỉ Nam dài xuyên tâm TRƯỚC - SAU)
                       IgnorePointer(
                         child: Container(
-                          width: 4,
-                          height: 350,
-                          color: Colors.red.withOpacity(0.85),
+                          width: 3.5,
+                          height: 375,
+                          color: const Color(0xFFD32F2F).withOpacity(0.9),
                         ),
                       ),
                       // Mũi tên định hướng phương TRƯỚC (Chính đỉnh)
                       const Positioned(
                         top: 0,
-                        child: Icon(Icons.arrow_drop_down, color: Colors.red, size: 36),
+                        child: Icon(Icons.arrow_drop_down, color: Color(0xFFD32F2F), size: 36),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 18),
 
                 // Active Direction Auspicious Status Pill
                 if (activeDirectionMeaning != null)

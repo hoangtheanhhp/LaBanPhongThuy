@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/utils/bat_trach_calculator.dart';
 
 class BaguaDial extends StatelessWidget {
@@ -13,63 +12,53 @@ class BaguaDial extends StatelessWidget {
     this.activeCungPhi,
   });
 
-  /// 8 Cung Bát Quái Tiên Thiên / Hậu Thiên theo phương vị la bàn
-  /// (Góc 0°: Bắc/Khảm, 45°: ĐB/Cấn, 90°: Đông/Chấn, 135°: ĐN/Tốn, 180°: Nam/Ly, 225°: TN/Khôn, 270°: Tây/Đoài, 315°: TB/Càn)
   static const List<Map<String, dynamic>> bagua8Directions = [
     {
       'name': 'CHÁNH BẮC',
       'cung': 'KHẢM',
       'angle': 0.0,
-      // Quẻ Khảm: Âm - Dương - Âm (trên đứt, giữa liền, dưới đứt)
       'lines': [false, true, false],
     },
     {
       'name': 'ĐÔNG BẮC',
       'cung': 'CẤN',
       'angle': 45.0,
-      // Quẻ Cấn: Dương - Âm - Âm (trên liền, giữa đứt, dưới đứt)
       'lines': [true, false, false],
     },
     {
       'name': 'CHÁNH ĐÔNG',
       'cung': 'CHẤN',
       'angle': 90.0,
-      // Quẻ Chấn: Âm - Âm - Dương (trên đứt, giữa đứt, dưới liền)
       'lines': [false, false, true],
     },
     {
       'name': 'ĐÔNG NAM',
       'cung': 'TỐN',
       'angle': 135.0,
-      // Quẻ Tốn: Dương - Dương - Âm (trên liền, giữa liền, dưới đứt)
       'lines': [true, true, false],
     },
     {
       'name': 'CHÁNH NAM',
       'cung': 'LY',
       'angle': 180.0,
-      // Quẻ Ly: Dương - Âm - Dương (trên liền, giữa đứt, dưới liền)
       'lines': [true, false, true],
     },
     {
       'name': 'TÂY NAM',
       'cung': 'KHÔN',
       'angle': 225.0,
-      // Quẻ Khôn: Âm - Âm - Âm (3 hào đứt)
       'lines': [false, false, false],
     },
     {
       'name': 'CHÁNH TÂY',
       'cung': 'ĐOÀI',
       'angle': 270.0,
-      // Quẻ Đoài: Âm - Dương - Dương (trên đứt, 2 hào liền)
       'lines': [false, true, true],
     },
     {
       'name': 'TÂY BẮC',
       'cung': 'CÀN',
       'angle': 315.0,
-      // Quẻ Càn: Dương - Dương - Dương (3 hào liền)
       'lines': [true, true, true],
     },
   ];
@@ -78,7 +67,7 @@ class BaguaDial extends StatelessWidget {
   Widget build(BuildContext context) {
     final directionMeanings = activeCungPhi != null
         ? BatTrachCalculator.getDirectionMeanings(activeCungPhi!)
-        : BatTrachCalculator.getDirectionMeanings(CungPhi.chan); // Mặc định Chấn (như ảnh 1997)
+        : BatTrachCalculator.getDirectionMeanings(CungPhi.chan);
 
     return Container(
       width: size,
@@ -88,8 +77,8 @@ class BaguaDial extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.4),
-            blurRadius: 18,
+            color: Colors.black.withOpacity(0.45),
+            blurRadius: 16,
             spreadRadius: 2,
           ),
         ],
@@ -113,11 +102,11 @@ class BaguaDial extends StatelessWidget {
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 1.0),
+                  padding: EdgeInsets.only(top: size * 0.002),
                   child: Text(
                     '$deg',
                     style: TextStyle(
-                      fontSize: size * 0.021,
+                      fontSize: size * 0.018, // Giảm cỡ chữ vừa khít vành
                       fontWeight: FontWeight.bold,
                       color: deg == 0 ? Colors.red : Colors.black87,
                     ),
@@ -126,27 +115,27 @@ class BaguaDial extends StatelessWidget {
               ),
             ),
 
-          // 3. Vành 24 Sao Phúc Đức (Phước Đức / Tấn Tài / Bại Tuyệt...)
+          // 3. Vành 24 Sao Phúc Đức
           for (final pd in BatTrachCalculator.phucDuc24List)
             Transform.rotate(
               angle: (pd['angle'] as double) * (math.pi / 180.0),
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(top: size * 0.046),
+                  padding: EdgeInsets.only(top: size * 0.045),
                   child: Text(
                     pd['name'],
                     style: TextStyle(
-                      fontSize: size * 0.016,
+                      fontSize: size * 0.0145, // Cỡ chữ nhỏ gọn tinh tế
                       fontWeight: FontWeight.w700,
-                      color: (pd['isGood'] as bool) ? const Color(0xFF006600) : const Color(0xFF990000),
+                      color: (pd['isGood'] as bool) ? const Color(0xFF1B5E20) : const Color(0xFFB71C1C),
                     ),
                   ),
                 ),
               ),
             ),
 
-          // 4. Vành 8 Cung Bát Trạch (THIÊN Y, LỤC SÁT, PHỤC VỊ, v.v.)
+          // 4. Vành 8 Cung Bát Trạch (THIÊN Y, LỤC SÁT, v.v.)
           for (int i = 0; i < 8; i++)
             Builder(
               builder: (context) {
@@ -160,16 +149,14 @@ class BaguaDial extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.topCenter,
                     child: Padding(
-                      padding: EdgeInsets.only(top: size * 0.092),
+                      padding: EdgeInsets.only(top: size * 0.098), // Đặt chuẩn xác giữa vành
                       child: Text(
                         name,
                         style: TextStyle(
-                          fontSize: size * 0.038,
+                          fontSize: size * 0.027, // Cỡ chữ vừa vặn hoàn hảo trong khung màu
                           fontWeight: FontWeight.w900,
-                          letterSpacing: 0.5,
-                          color: isGood
-                              ? (angle == 0 || angle == 180 ? Colors.red.shade900 : const Color(0xFFB30000))
-                              : Colors.white,
+                          letterSpacing: 0.3,
+                          color: isGood ? const Color(0xFFB71C1C) : Colors.white,
                         ),
                       ),
                     ),
@@ -178,69 +165,71 @@ class BaguaDial extends StatelessWidget {
               },
             ),
 
-          // 5. Vành 24 Sơn Hướng (Nhâm, Tý, Quý, Sửu, Cấn, Dần...)
+          // 5. Vành 24 Sơn Hướng (Nhâm, Tý, Quý...)
           for (final son in BatTrachCalculator.son24List)
             Transform.rotate(
               angle: (son['angle'] as double) * (math.pi / 180.0),
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(top: size * 0.170),
+                  padding: EdgeInsets.only(top: size * 0.168),
                   child: Text(
                     son['name'],
                     style: TextStyle(
-                      fontSize: size * 0.027,
+                      fontSize: size * 0.021, // Nhỏ gọn vừa ô sơn
                       fontWeight: FontWeight.bold,
                       color: (son['angle'] == 0.0 || son['angle'] == 180.0 || son['angle'] == 90.0 || son['angle'] == 270.0)
                           ? Colors.white
-                          : Colors.black87,
+                          : const Color(0xFF212121),
                     ),
                   ),
                 ),
               ),
             ),
 
-          // 6. Vành 8 Hướng Địa Lý (CHÁNH BẮC, ĐÔNG BẮC, CHÁNH ĐÔNG...)
+          // 6. Vành 8 Hướng Địa Lý (CHÁNH BẮC, ĐÔNG BẮC...)
           for (final dir in bagua8Directions)
             Transform.rotate(
               angle: (dir['angle'] as double) * (math.pi / 180.0),
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(top: size * 0.232),
+                  padding: EdgeInsets.only(top: size * 0.228),
                   child: Text(
                     dir['name'] as String,
                     style: TextStyle(
-                      fontSize: size * 0.026,
+                      fontSize: size * 0.019, // Chữ thanh lịch không lấn cung
                       fontWeight: FontWeight.bold,
-                      color: const Color(0xFF005500),
+                      color: const Color(0xFF1B5E20),
                     ),
                   ),
                 ),
               ),
             ),
 
-          // 7. Vành 8 Cung Mạng Bát Quái (KHẢM, CẤN, CHẤN, TỐN, LY, KHÔN, ĐOÀI, CÀN)
+          // 7. Vành 8 Cung Mạng Bát Quái (KHẢM, CẤN, CHẤN...)
           for (final dir in bagua8Directions)
             Transform.rotate(
               angle: (dir['angle'] as double) * (math.pi / 180.0),
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(top: size * 0.274),
+                  padding: EdgeInsets.only(top: size * 0.272),
                   child: Text(
                     dir['cung'] as String,
                     style: TextStyle(
-                      fontSize: size * 0.034,
+                      fontSize: size * 0.026,
                       fontWeight: FontWeight.w900,
-                      color: dir['angle'] == 90.0 ? Colors.white : const Color(0xFF0033CC),
+                      color: (activeCungPhi != null && dir['cung'] == activeCungPhi!.vietnameseName)
+                          ? Colors.white
+                          : const Color(0xFF0D47A1),
                     ),
                   ),
                 ),
               ),
             ),
 
-          // 8. Vành 8 Quẻ Hào Bát Quái (Hào Âm --  --, Hào Dương —— màu đỏ rực như ảnh)
+          // 8. Vành 8 Quẻ Hào Bát Quái
           for (final dir in bagua8Directions)
             Transform.rotate(
               angle: (dir['angle'] as double) * (math.pi / 180.0),
@@ -250,44 +239,42 @@ class BaguaDial extends StatelessWidget {
                   padding: EdgeInsets.only(top: size * 0.320),
                   child: _TrigramLinesWidget(
                     lines: dir['lines'] as List<bool>,
-                    width: size * 0.115,
-                    lineHeight: size * 0.012,
-                    spacing: size * 0.005,
+                    width: size * 0.090,
+                    lineHeight: size * 0.009,
+                    spacing: size * 0.004,
                   ),
                 ),
               ),
             ),
 
-          // 9. Tâm La Bàn: Thái Cực (Âm Dương Hoàng Đạo) + Kim Chỉ Nam / Hướng TRƯỚC - SAU
+          // 9. Tâm La Bàn: Thái Cực Âm Dương & Khối TRƯỚC - SAU
           Container(
-            width: size * 0.22,
-            height: size * 0.22,
+            width: size * 0.21,
+            height: size * 0.21,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
-              border: Border.all(color: const Color(0xFF888888), width: 2),
+              border: Border.all(color: const Color(0xFF757575), width: 1.5),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.2),
-                  blurRadius: 6,
+                  blurRadius: 5,
                 ),
               ],
             ),
             child: Stack(
               alignment: Alignment.center,
               children: [
-                // Biểu tượng Thái Cực Âm Dương (Xanh lá & Vàng như bản vẽ truyền thống)
                 CustomPaint(
-                  size: Size(size * 0.21, size * 0.21),
+                  size: Size(size * 0.20, size * 0.20),
                   painter: _YinYangPainter(),
                 ),
-                // Khối TRƯỚC / SAU trung tâm
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.92),
+                    color: Colors.white.withOpacity(0.94),
                     borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: Colors.blueGrey, width: 1),
+                    border: Border.all(color: const Color(0xFFB0BEC5), width: 0.8),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -295,18 +282,18 @@ class BaguaDial extends StatelessWidget {
                       Text(
                         'TRƯỚC',
                         style: TextStyle(
-                          fontSize: size * 0.022,
+                          fontSize: size * 0.020,
                           fontWeight: FontWeight.bold,
-                          color: const Color(0xFF0044CC),
+                          color: const Color(0xFF0D47A1),
                         ),
                       ),
-                      Container(height: 1, width: size * 0.10, color: Colors.grey),
+                      Container(height: 1, width: size * 0.08, color: Colors.grey.shade400),
                       Text(
                         'SAU',
                         style: TextStyle(
-                          fontSize: size * 0.022,
+                          fontSize: size * 0.020,
                           fontWeight: FontWeight.bold,
-                          color: const Color(0xFFCC0000),
+                          color: const Color(0xFFC62828),
                         ),
                       ),
                     ],
@@ -321,9 +308,8 @@ class BaguaDial extends StatelessWidget {
   }
 }
 
-/// Widget vẽ 3 vạch hào Quẻ Bát Quái (Hào Âm = 2 đoạn ngắt quãng, Hào Dương = 1 đoạn liền mạch)
 class _TrigramLinesWidget extends StatelessWidget {
-  final List<bool> lines; // true = hào dương (liền), false = hào âm (đứt)
+  final List<bool> lines;
   final double width;
   final double lineHeight;
   final double spacing;
@@ -337,7 +323,7 @@ class _TrigramLinesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const lineColor = Color(0xFFEE0000); // Đỏ rực truyền thống
+    const lineColor = Color(0xFFD32F2F);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -345,34 +331,32 @@ class _TrigramLinesWidget extends StatelessWidget {
         return Padding(
           padding: EdgeInsets.symmetric(vertical: spacing / 2),
           child: isSolid
-              // Hào Dương: Thanh liền
               ? Container(
                   width: width,
                   height: lineHeight,
                   decoration: BoxDecoration(
                     color: lineColor,
-                    borderRadius: BorderRadius.circular(1.5),
+                    borderRadius: BorderRadius.circular(1.0),
                   ),
                 )
-              // Hào Âm: 2 thanh ngắt quãng ở giữa
               : Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      width: (width - 4) / 2,
+                      width: (width - 3) / 2,
                       height: lineHeight,
                       decoration: BoxDecoration(
                         color: lineColor,
-                        borderRadius: BorderRadius.circular(1.5),
+                        borderRadius: BorderRadius.circular(1.0),
                       ),
                     ),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: 3),
                     Container(
-                      width: (width - 4) / 2,
+                      width: (width - 3) / 2,
                       height: lineHeight,
                       decoration: BoxDecoration(
                         color: lineColor,
-                        borderRadius: BorderRadius.circular(1.5),
+                        borderRadius: BorderRadius.circular(1.0),
                       ),
                     ),
                   ],
@@ -383,7 +367,6 @@ class _TrigramLinesWidget extends StatelessWidget {
   }
 }
 
-/// Painter vẽ toàn bộ các vành khuyên đồng tâm và màu sắc cung Bát Trạch
 class _FullLaBanPainter extends CustomPainter {
   final Map<int, BatTrachDirectionType> directionMeanings;
   final CungPhi? activeCungPhi;
@@ -398,17 +381,17 @@ class _FullLaBanPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final R = size.width / 2;
 
-    // Định nghĩa bán kính các vành từ ngoài vào trong:
-    final rVachDo = R;                     // 1.00 - Vạch độ ngoài cùng
-    final rPhucDuc = R * 0.90;             // 0.90 - Vành 24 Phúc Đức
-    final rBatTrach = R * 0.81;            // 0.81 - Vành Bát Trạch (Thiên Y, Sinh Khí...)
-    final rSon24 = R * 0.65;               // 0.65 - Vành 24 Sơn Hướng
-    final rHuongDiaLy = R * 0.52;          // 0.52 - Vành 8 Hướng Địa lý (Chánh Bắc, Đông Bắc...)
-    final rCungMang = R * 0.44;            // 0.44 - Vành 8 Cung (Khảm, Cấn, Chấn...)
-    final rHaoQue = R * 0.36;              // 0.36 - Vành Quẻ Hào
-    final rTam = R * 0.22;                 // 0.22 - Tâm Thái Cực
+    // Bán kính chuẩn hóa
+    final rVachDo = R;                     // 1.00
+    final rPhucDuc = R * 0.91;             // 0.91
+    final rBatTrach = R * 0.82;            // 0.82
+    final rSon24 = R * 0.65;               // 0.65
+    final rHuongDiaLy = R * 0.53;          // 0.53
+    final rCungMang = R * 0.44;            // 0.44
+    final rHaoQue = R * 0.35;              // 0.35
+    final rTam = R * 0.21;                 // 0.21
 
-    // --- 1. TÔ MÀU VÀNH BÁT TRẠCH (4 CUNG CÁT = VÀNG / 4 CUNG HUNG = XANH ĐẬM / ĐEN) ---
+    // 1. TÔ MÀU VÀNH BÁT TRẠCH (Màu trang nhã, tương phản cao, dễ nhìn)
     for (int i = 0; i < 8; i++) {
       final angleCenter = i * 45.0;
       final startAngleRad = (angleCenter - 22.5 - 90.0) * (math.pi / 180.0);
@@ -419,8 +402,8 @@ class _FullLaBanPainter extends CustomPainter {
       final sectorPaint = Paint()
         ..style = PaintingStyle.fill
         ..color = isGood
-            ? const Color(0xFFFFF275) // Vàng tươi cung Cát như ảnh mẫu
-            : const Color(0xFF004D20); // Xanh lá đậm / Đen cung Hung như ảnh mẫu
+            ? const Color(0xFFFFF3B0) // Vàng kem hoàng đạo dịu mắt, tương phản cao
+            : const Color(0xFF1B4332); // Xanh lục sẫm sang trọng
 
       final path = Path()
         ..arcTo(Rect.fromCircle(center: center, radius: rPhucDuc), startAngleRad, sweepAngleRad, false)
@@ -429,20 +412,19 @@ class _FullLaBanPainter extends CustomPainter {
       canvas.drawPath(path, sectorPaint);
     }
 
-    // --- 2. TÔ MÀU VÀNH 24 SƠN HƯỚNG ---
+    // 2. TÔ MÀU VÀNH 24 SƠN HƯỚNG
     for (int i = 0; i < 24; i++) {
       final son = BatTrachCalculator.son24List[i];
       final angle = son['angle'] as double;
       final startAngleRad = (angle - 7.5 - 90.0) * (math.pi / 180.0);
       final sweepAngleRad = 15.0 * (math.pi / 180.0);
 
-      // Điểm nhấn 4 chính cung (Tý=Bắc, Ngọ=Nam, Mão=Đông, Dậu=Tây): màu đỏ rực
       final isCardinalMajor = (angle == 0.0 || angle == 180.0 || angle == 90.0 || angle == 270.0);
 
       final sonPaint = Paint()
         ..style = PaintingStyle.fill
         ..color = isCardinalMajor
-            ? const Color(0xFFE50914) // Đỏ tươi
+            ? const Color(0xFFE50914) // Đỏ son chủ cung
             : Colors.white;
 
       final path = Path()
@@ -452,7 +434,7 @@ class _FullLaBanPainter extends CustomPainter {
       canvas.drawPath(path, sonPaint);
     }
 
-    // --- 3. TÔ MÀU VÀNH 8 HƯỚNG ĐỊA LÝ (XANH NHẠT NHƯ ẢNH MẪU) ---
+    // 3. TÔ MÀU VÀNH 8 HƯỚNG ĐỊA LÝ
     final huongBgPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = const Color(0xFFE8F5E9); // Xanh cốm nhạt
@@ -463,19 +445,32 @@ class _FullLaBanPainter extends CustomPainter {
       ..close();
     canvas.drawPath(huongPath, huongBgPaint);
 
-    // Điểm nhấn cung bản mệnh (ví dụ Chấn tuổi 1997 được tô nền đỏ nổi bật như ảnh)
-    final chanStartAngleRad = (90.0 - 22.5 - 90.0) * (math.pi / 180.0);
-    final chanPath = Path()
-      ..arcTo(Rect.fromCircle(center: center, radius: rSon24), chanStartAngleRad, 45.0 * (math.pi / 180.0), false)
-      ..arcTo(Rect.fromCircle(center: center, radius: rHaoQue), chanStartAngleRad + 45.0 * (math.pi / 180.0), -45.0 * (math.pi / 180.0), false)
-      ..close();
-    final chanPaint = Paint()..color = const Color(0xFFE50914);
-    canvas.drawPath(chanPath, chanPaint);
+    // Tô nền nổi bật cho Cung Bản Mệnh của người dùng
+    if (activeCungPhi != null) {
+      double cungAngle = 90.0;
+      switch (activeCungPhi!) {
+        case CungPhi.kham: cungAngle = 0.0; break;
+        case CungPhi.canTho: cungAngle = 45.0; break;
+        case CungPhi.chan: cungAngle = 90.0; break;
+        case CungPhi.ton: cungAngle = 135.0; break;
+        case CungPhi.ly: cungAngle = 180.0; break;
+        case CungPhi.khon: cungAngle = 225.0; break;
+        case CungPhi.doai: cungAngle = 270.0; break;
+        case CungPhi.canKim: cungAngle = 315.0; break;
+      }
+      final cungStartRad = (cungAngle - 22.5 - 90.0) * (math.pi / 180.0);
+      final cungPath = Path()
+        ..arcTo(Rect.fromCircle(center: center, radius: rSon24), cungStartRad, 45.0 * (math.pi / 180.0), false)
+        ..arcTo(Rect.fromCircle(center: center, radius: rHaoQue), cungStartRad + 45.0 * (math.pi / 180.0), -45.0 * (math.pi / 180.0), false)
+        ..close();
+      final cungPaint = Paint()..color = const Color(0xFFE50914);
+      canvas.drawPath(cungPath, cungPaint);
+    }
 
-    // --- 4. VẼ CÁC VÒNG TRÒN PHÂN ĐỊNH RANH GIỚI ---
+    // 4. VÒNG TRÒN PHÂN ĐỊNH (Viền xanh dương đậm tao nhã)
     final ringPaint = Paint()
       ..style = PaintingStyle.stroke
-      ..color = const Color(0xFF0033CC) // Đường viền xanh dương truyền thống
+      ..color = const Color(0xFF1565C0)
       ..strokeWidth = 1.0;
 
     canvas.drawCircle(center, rVachDo - 1, ringPaint);
@@ -487,23 +482,22 @@ class _FullLaBanPainter extends CustomPainter {
     canvas.drawCircle(center, rHaoQue, ringPaint);
     canvas.drawCircle(center, rTam, ringPaint);
 
-    // --- 5. VẼ CÁC VẠCH ĐỘ NGOÀI CÙNG (360 ĐỘ) ---
-    final tickRed = Paint()..color = Colors.red..strokeWidth = 1.2;
-    final tickBlack = Paint()..color = Colors.black87..strokeWidth = 0.8;
+    // 5. VẠCH ĐỘ (360 ĐỘ)
+    final tickRed = Paint()..color = const Color(0xFFD32F2F)..strokeWidth = 1.0;
+    final tickBlack = Paint()..color = const Color(0xFF424242)..strokeWidth = 0.6;
 
     for (int deg = 0; deg < 360; deg++) {
       final rad = deg * (math.pi / 180.0) - math.pi / 2;
       final isMajor = (deg % 10 == 0);
       final isFive = (deg % 5 == 0);
-      final tickLength = isMajor ? 9.0 : (isFive ? 6.0 : 3.5);
+      final tickLength = isMajor ? 8.0 : (isFive ? 5.5 : 3.0);
       final p1 = Offset(center.dx + rVachDo * math.cos(rad), center.dy + rVachDo * math.sin(rad));
       final p2 = Offset(center.dx + (rVachDo - tickLength) * math.cos(rad), center.dy + (rVachDo - tickLength) * math.sin(rad));
       canvas.drawLine(p1, p2, isMajor || isFive ? tickRed : tickBlack);
     }
 
-    // --- 6. VẼ CÁC ĐƯỜNG PHÂN CUNG (8 CUNG & 24 SƠN) ---
-    final linePaintBlue = Paint()..color = const Color(0xFF0033CC)..strokeWidth = 1.0;
-
+    // 6. ĐƯỜNG PHÂN CUNG
+    final linePaintBlue = Paint()..color = const Color(0xFF1565C0)..strokeWidth = 0.8;
     for (int i = 0; i < 8; i++) {
       final rad = (i * 45.0 + 22.5 - 90.0) * (math.pi / 180.0);
       final p1 = Offset(center.dx + rPhucDuc * math.cos(rad), center.dy + rPhucDuc * math.sin(rad));
@@ -511,8 +505,7 @@ class _FullLaBanPainter extends CustomPainter {
       canvas.drawLine(p1, p2, linePaintBlue);
     }
 
-    // 24 Sơn vạch ngắn ở vành sơn
-    final linePaintThin = Paint()..color = const Color(0xFF0033CC).withOpacity(0.5)..strokeWidth = 0.8;
+    final linePaintThin = Paint()..color = const Color(0xFF1565C0).withOpacity(0.5)..strokeWidth = 0.6;
     for (int i = 0; i < 24; i++) {
       final rad = (i * 15.0 + 7.5 - 90.0) * (math.pi / 180.0);
       final p1 = Offset(center.dx + rBatTrach * math.cos(rad), center.dy + rBatTrach * math.sin(rad));
@@ -526,30 +519,25 @@ class _FullLaBanPainter extends CustomPainter {
       oldDelegate.activeCungPhi != activeCungPhi;
 }
 
-/// Vẽ Thái Cực Âm Dương Hoàng Đạo
 class _YinYangPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2;
 
-    // Nửa Vàng
     final yellowPaint = Paint()..color = const Color(0xFFFFD700);
-    // Nửa Xanh lá phong thuỷ
-    final greenPaint = Paint()..color = const Color(0xFF006622);
+    final greenPaint = Paint()..color = const Color(0xFF1B5E20);
 
     final rect = Rect.fromCircle(center: center, radius: radius);
     canvas.drawArc(rect, -math.pi / 2, math.pi, true, greenPaint);
     canvas.drawArc(rect, math.pi / 2, math.pi, true, yellowPaint);
 
-    // Hai hình tròn nội tiếp tạo thành đường cong S Âm Dương
     final topSubCircleCenter = Offset(center.dx, center.dy - radius / 2);
     final bottomSubCircleCenter = Offset(center.dx, center.dy + radius / 2);
 
     canvas.drawCircle(topSubCircleCenter, radius / 2, yellowPaint);
     canvas.drawCircle(bottomSubCircleCenter, radius / 2, greenPaint);
 
-    // Mắt Thái Cực
     canvas.drawCircle(topSubCircleCenter, radius * 0.12, greenPaint);
     canvas.drawCircle(bottomSubCircleCenter, radius * 0.12, yellowPaint);
   }
