@@ -206,32 +206,31 @@ class _CompassScreenState extends State<CompassScreen> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      // Target Outer Ring
-                      Container(
-                        width: 310,
-                        height: 310,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: AppColors.primaryGold.withOpacity(0.35), width: 2),
-                        ),
-                      ),
                       // Rotating Bagua Plate (Rotates counter to heading)
                       Transform.rotate(
                         angle: -CompassMath.toRadians(_smoothHeading),
                         child: BaguaDial(
-                          size: 300,
+                          size: 350,
                           activeCungPhi: _activeCungPhi,
                         ),
                       ),
-                      // Top Fixed Pointer (Pointing straight to target heading)
+                      // Precision Red Needle (Kim Chỉ Nam dài xuyên tâm TRƯỚC - SAU như ảnh mẫu)
+                      IgnorePointer(
+                        child: Container(
+                          width: 4,
+                          height: 350,
+                          color: Colors.red.withOpacity(0.85),
+                        ),
+                      ),
+                      // Mũi tên định hướng phương TRƯỚC (Chính đỉnh)
                       const Positioned(
-                        top: 2,
-                        child: Icon(Icons.arrow_drop_down, color: AppColors.northRed, size: 40),
+                        top: 0,
+                        child: Icon(Icons.arrow_drop_down, color: Colors.red, size: 36),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 24),
 
                 // Active Direction Auspicious Status Pill
                 if (activeDirectionMeaning != null)
