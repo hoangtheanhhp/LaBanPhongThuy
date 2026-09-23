@@ -230,43 +230,6 @@ class _CompassScreenState extends State<CompassScreen> {
                         top: 2,
                         child: Icon(Icons.arrow_drop_down, color: Color(0xFF9E2A2B), size: 36),
                       ),
-                      // Hộp định vị cố định TRƯỚC - SAU chuẩn theo hướng cầm máy
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFAF6EE).withOpacity(0.96),
-                          borderRadius: BorderRadius.circular(4),
-                          border: Border.all(color: const Color(0xFF5A4D41), width: 1.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              blurRadius: 4,
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text(
-                              'TRƯỚC',
-                              style: TextStyle(
-                                fontSize: 9.5,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF1E1A17),
-                              ),
-                            ),
-                            Container(height: 1, width: 36, color: const Color(0xFF8D7B68)),
-                            const Text(
-                              'SAU',
-                              style: TextStyle(
-                                fontSize: 9.5,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF9E2A2B),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),
