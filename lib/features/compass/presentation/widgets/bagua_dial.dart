@@ -249,7 +249,7 @@ class BaguaDial extends StatelessWidget {
               ),
             ),
 
-          // 9. Tâm La Bàn: Thái Cực Âm Dương Tông Gỗ Mộc
+          // 9. Tâm La Bàn: Thái Cực Âm Dương Tông Gỗ Mộc thuần khiết xoay cùng Bát Quái
           Container(
             width: size * 0.21,
             height: size * 0.21,
@@ -264,44 +264,11 @@ class BaguaDial extends StatelessWidget {
                 ),
               ],
             ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                CustomPaint(
-                  size: Size(size * 0.20, size * 0.20),
-                  painter: _WoodYinYangPainter(),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFAF6EE).withOpacity(0.95),
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: const Color(0xFF5A4D41), width: 0.8),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'TRƯỚC',
-                        style: TextStyle(
-                          fontSize: size * 0.019,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF1E1A17),
-                        ),
-                      ),
-                      Container(height: 1, width: size * 0.08, color: const Color(0xFF8D7B68)),
-                      Text(
-                        'SAU',
-                        style: TextStyle(
-                          fontSize: size * 0.019,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF9E2A2B),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            child: Center(
+              child: CustomPaint(
+                size: Size(size * 0.20, size * 0.20),
+                painter: _WoodYinYangPainter(),
+              ),
             ),
           ),
         ],

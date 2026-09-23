@@ -209,26 +209,63 @@ class _CompassScreenState extends State<CompassScreen> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      // Rotating Bagua Plate (Rotates counter to heading)
+                      // Rotating Bagua Plate (Mặt đĩa Bát Quái xoay đối ứng theo cảm biến từ trường)
                       Transform.rotate(
                         angle: -CompassMath.toRadians(_smoothHeading),
                         child: BaguaDial(
-                          size: 375, // Tăng kích thước la bàn lớn hơn, rõ nét hơn
+                          size: 375,
                           activeCungPhi: _activeCungPhi,
                         ),
                       ),
-                      // Precision Needle (Kim Chỉ Nam mộc bản TRƯỚC - SAU)
+                      // Precision Aiming Needle (Trục ngắm định hướng cố định theo thân máy)
                       IgnorePointer(
                         child: Container(
-                          width: 3.0,
+                          width: 2.5,
                           height: 375,
-                          color: const Color(0xFF9E2A2B).withOpacity(0.9),
+                          color: const Color(0xFF9E2A2B).withOpacity(0.85),
                         ),
                       ),
-                      // Mũi tên định hướng phương TRƯỚC (Chính đỉnh)
+                      // Mũi tên định hướng phương TRƯỚC (Đỉnh điện thoại)
                       const Positioned(
-                        top: 0,
+                        top: 2,
                         child: Icon(Icons.arrow_drop_down, color: Color(0xFF9E2A2B), size: 36),
+                      ),
+                      // Hộp định vị cố định TRƯỚC - SAU chuẩn theo hướng cầm máy
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFAF6EE).withOpacity(0.96),
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: const Color(0xFF5A4D41), width: 1.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              blurRadius: 4,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text(
+                              'TRƯỚC',
+                              style: TextStyle(
+                                fontSize: 9.5,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1E1A17),
+                              ),
+                            ),
+                            Container(height: 1, width: 36, color: const Color(0xFF8D7B68)),
+                            const Text(
+                              'SAU',
+                              style: TextStyle(
+                                fontSize: 9.5,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF9E2A2B),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
