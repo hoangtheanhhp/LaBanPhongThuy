@@ -22,6 +22,7 @@ class _CompassScreenState extends State<CompassScreen> {
   double? _accuracy; // sensor accuracy in degrees
   bool _initialized = false;
   bool _sensorAvailable = true;
+  bool _invert180 = true; // Mặc định hiệu chỉnh 180° để chuẩn Bắc đỉnh máy
 
   // ── User Profile ─────────────────────────────────────────
   CungPhi? _activeCungPhi;
@@ -44,16 +45,17 @@ class _CompassScreenState extends State<CompassScreen> {
           if (mounted) setState(() => _sensorAvailable = false);
           return;
         }
+        final correctedRaw = _invert180 ? (raw + 180.0) % 360.0 : raw;
         if (mounted) {
           setState(() {
             _sensorAvailable = true;
             _accuracy = event.accuracy;
             if (!_initialized) {
               // Snap immediately to first reading — avoids "reversed" initial display
-              _smoothHeading = raw;
+              _smoothHeading = correctedRaw;
               _initialized = true;
             } else {
-              final delta = CompassMath.shortestAngleDelta(_smoothHeading, raw);
+              final delta = CompassMath.shortestAngleDelta(_smoothHeading, correctedRaw);
               _smoothHeading = (_smoothHeading + delta * 0.18) % 360;
             }
           });
@@ -254,6 +256,34 @@ class _CompassScreenState extends State<CompassScreen> {
               padding: const EdgeInsets.only(right: 4),
               child: _AccuracyDot(accuracy: _accuracy!),
             ),
+          // 180° Calibration Toggle
+          IconButton(
+            icon: Icon(
+              Icons.sync_alt,
+              color: _invert180 ? AppColors.woodAccent : Colors.white38,
+            ),
+            tooltip: _invert180
+                ? 'Đang bật sửa góc 180° (Chuẩn Bắc đỉnh máy)'
+                : 'Đang dùng góc cảm biến gốc',
+            onPressed: () {
+              setState(() {
+                _invert180 = !_invert180;
+                _initialized = false;
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    _invert180
+                        ? 'Đã bật hiệu chỉnh 180° (Chuẩn Bắc đỉnh máy)'
+                        : 'Đã dùng góc gốc cảm biến',
+                    style: const TextStyle(color: AppColors.ivoryWhite),
+                  ),
+                  backgroundColor: AppColors.surfaceElevated,
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.person_outline, color: AppColors.woodAccent),
             tooltip: 'Thiết lập Mệnh Quái',
@@ -364,25 +394,6 @@ class _CompassScreenState extends State<CompassScreen> {
                         Icons.arrow_drop_up,
                         color: AppColors.northRed.withOpacity(0.4),
                         size: 28,
-                      ),
-                    ),
-                    // Degree label on dial's 12 o'clock (live heading)
-                    Positioned(
-                      top: dialSize * 0.06,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: AppColors.northRed.withOpacity(0.9),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          '${_heading.toStringAsFixed(0)}°',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
                       ),
                     ),
                   ],
