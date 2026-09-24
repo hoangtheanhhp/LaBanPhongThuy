@@ -47,7 +47,7 @@ class _CompassScreenState extends State<CompassScreen> {
         if (mounted) {
           setState(() {
             _sensorAvailable = true;
-            _accuracy = event.headingAccuracy;
+            _accuracy = event.accuracy;
             if (!_initialized) {
               // Snap immediately to first reading — avoids "reversed" initial display
               _smoothHeading = raw;
