@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'core/constants/app_colors.dart';
 import 'features/compass/presentation/compass_screen.dart';
+import 'features/lunar_calendar/presentation/lunar_calendar_screen.dart';
 import 'features/lookup_webview/presentation/lookup_webview_screen.dart';
 
 void main() {
@@ -43,6 +44,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
 
   final List<Widget> _pages = const [
     CompassScreen(),
+    LunarCalendarScreen(),
     LookupWebViewScreen(),
   ];
 
@@ -64,6 +66,11 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             icon: Icon(Icons.explore_outlined),
             activeIcon: Icon(Icons.explore),
             label: 'La Bàn',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month_outlined),
+            activeIcon: Icon(Icons.calendar_month),
+            label: 'Lịch Âm',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu_book_outlined),
