@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Tra Cứu Bát Quái Phong Thuỷ Trực Tuyến</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <h1><span>☯</span> Tra Cứu Bát Quái Phong Thuỷ</h1>
+    <p>Bát Trạch Minh Cảnh · Thước Lỗ Ban · Kinh Dịch Toàn Thư</p>
+  </header>
+
+  <!-- NAVIGATION TABS -->
+  <nav class="nav-scroll">
+    <div class="nav-tabs">
+      <button class="tab-btn active" data-tab="tab-cung">🧭 Mệnh Quái</button>
+      <button class="tab-btn" data-tab="tab-luban">📏 Thước Lỗ Ban</button>
+      <button class="tab-btn" data-tab="tab-tamyeu">🏠 Tam Yếu (Bếp/Cửa)</button>
+      <button class="tab-btn" data-tab="tab-iching">📜 64 Quẻ Dịch</button>
+      <button class="tab-btn" data-tab="tab-satkhi">🛡️ Hóa Giải Sát</button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTAINER -->
+  <main class="container">
+
+    <!-- ── TAB 1: TRA CỨU CUNG MỆNH BÁT TRẠCH ── -->
+    <section id="tab-cung" class="tab-content active">
+      <div class="card">
+        <div class="card-title">
+          <span class="icon">🧭</span>
+          <span>Thiết Lập Mệnh Quái (Bát Trạch)</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
+          Theo sách <em>Bát Trạch Minh Cảnh</em>, mỗi người sinh ra đều có một Cung Phi (Mệnh Quái) tương ứng với 4 hướng Cát lành và 4 hướng Hung hại.
+        </p>
+
+        <div class="form-group">
+          <label class="form-label" for="birthYear">Năm sinh (Dương lịch):</label>
+          <input type="number" id="birthYear" class="form-control" value="1990" min="1920" max="2060" placeholder="VD: 1997">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Giới tính:</label>
+          <div class="gender-select">
+            <div class="gender-btn active" data-gender="male">Nam ♂</div>
+            <div class="gender-btn" data-gender="female">Nữ ♀</div>
+          </div>
+        </div>
+
+        <button id="calcCungBtn" class="btn-primary">Tra Cứu Hướng Nhà & Mệnh Quái</button>
+
+        <!-- Result Box -->
+        <div id="cungResultBox" class="result-box"></div>
+      </div>
+
+      <!-- 8 CUNG BÁT QUÁI TỔNG QUAN -->
+      <div class="card">
+        <div class="card-title">
+          <span class="icon">☯</span>
+          <span>Bát Quái Hậu Thiên (8 Cung)</span>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; text-align:center;">
+          <div style="background:var(--bg-input); padding:8px 4px; border-radius:6px; border:1px solid rgba(90,77,65,0.3);">
+            <div style="font-size:20px; color:var(--wood-accent);">☰</div>
+            <div style="font-size:11px; font-weight:700;">Càn</div>
+            <div style="font-size:9.5px; color:var(--text-muted);">Tây Bắc</div>
+          </div>
+          <div style="background:var(--bg-input); padding:8px 4px; border-radius:6px; border:1px solid rgba(90,77,65,0.3);">
+            <div style="font-size:20px; color:var(--wood-accent);">☵</div>
+            <div style="font-size:11px; font-weight:700;">Khảm</div>
+            <div style="font-size:9.5px; color:var(--text-muted);">Bắc</div>
+          </div>
+          <div style="background:var(--bg-input); padding:8px 4px; border-radius:6px; border:1px solid rgba(90,77,65,0.3);">
+            <div style="font-size:20px; color:var(--wood-accent);">☶</div>
+            <div style="font-size:11px; font-weight:700;">Cấn</div>
+            <div style="font-size:9.5px; color:var(--text-muted);">Đông Bắc</div>
+          </div>
+          <div style="background:var(--bg-input); padding:8px 4px; border-radius:6px; border:1px solid rgba(90,77,65,0.3);">
+            <div style="font-size:20px; color:var(--wood-accent);">☳</div>
+            <div style="font-size:11px; font-weight:700;">Chấn</div>
+            <div style="font-size:9.5px; color:var(--text-muted);">Đông</div>
+          </div>
+          <div style="background:var(--bg-input); padding:8px 4px; border-radius:6px; border:1px solid rgba(90,77,65,0.3);">
+            <div style="font-size:20px; color:var(--wood-accent);">☴</div>
+            <div style="font-size:11px; font-weight:700;">Tốn</div>
+            <div style="font-size:9.5px; color:var(--text-muted);">Đông Nam</div>
+          </div>
+          <div style="background:var(--bg-input); padding:8px 4px; border-radius:6px; border:1px solid rgba(90,77,65,0.3);">
+            <div style="font-size:20px; color:var(--wood-accent);">☲</div>
+            <div style="font-size:11px; font-weight:700;">Ly</div>
+            <div style="font-size:9.5px; color:var(--text-muted);">Nam</div>
+          </div>
+          <div style="background:var(--bg-input); padding:8px 4px; border-radius:6px; border:1px solid rgba(90,77,65,0.3);">
+            <div style="font-size:20px; color:var(--wood-accent);">☷</div>
+            <div style="font-size:11px; font-weight:700;">Khôn</div>
+            <div style="font-size:9.5px; color:var(--text-muted);">Tây Nam</div>
+          </div>
+          <div style="background:var(--bg-input); padding:8px 4px; border-radius:6px; border:1px solid rgba(90,77,65,0.3);">
+            <div style="font-size:20px; color:var(--wood-accent);">☱</div>
+            <div style="font-size:11px; font-weight:700;">Đoài</div>
+            <div style="font-size:9.5px; color:var(--text-muted);">Tây</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TAB 2: THƯỚC LỖ BAN TRỰC TUYẾN ── -->
+    <section id="tab-luban" class="tab-content">
+      <div class="card">
+        <div class="card-title">
+          <span class="icon">📏</span>
+          <span>Thước Lỗ Ban Chuẩn Phong Thuỷ</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted);">
+          Chọn loại thước phù hợp và nhập hoặc kéo thanh trượt kích thước để kiểm tra cung <strong>Đỏ (Cát)</strong> hay <strong>Đen (Hung)</strong>.
+        </p>
+
+        <!-- Ruler Type Selector -->
+        <div class="ruler-container">
+          <div class="ruler-types">
+            <div class="ruler-tab active" data-ruler="522">52.2 cm<br><span style="font-size:9px;">Thông Thủy</span></div>
+            <div class="ruler-tab" data-ruler="429">42.9 cm<br><span style="font-size:9px;">Dương Trạch</span></div>
+            <div class="ruler-tab" data-ruler="388">38.8 cm<br><span style="font-size:9px;">Âm Phần / Thờ</span></div>
+          </div>
+
+          <div id="rulerUsage" style="font-size:11.5px; color:var(--wood-accent); margin-bottom:12px; font-style:italic;">
+            Đo khoảng lọt sáng cửa chính, cửa sổ, chiều cao giếng trời...
+          </div>
+
+          <div class="ruler-slider-wrap">
+            <div class="ruler-metric">
+              <span style="font-size:12px; color:var(--text-secondary);">Kích thước đo được:</span>
+              <div class="ruler-val">
+                <input type="number" id="rulerInput" value="81" min="0" max="500" step="0.5" style="width:75px; background:transparent; border:none; border-bottom:1.5px solid var(--wood-accent); color:var(--wood-accent); font-size:24px; font-weight:bold; text-align:right; outline:none;">
+                <span>cm</span>
+              </div>
+            </div>
+
+            <input type="range" id="rulerSlider" class="range-slider" min="0" max="500" value="81" step="0.5">
+
+            <!-- Result Strip -->
+            <div id="rulerStrip" class="ruler-display-strip strip-good">
+              ✦ CUNG TÀI (CÁT) ✦
+            </div>
+
+            <div id="rulerDesc" class="ruler-detail-text">
+              Ý nghĩa: Được của cải, phúc lộc dồi dào, vạn sự hanh thông.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TAB 3: DƯƠNG TRẠCH TAM YẾU ── -->
+    <section id="tab-tamyeu" class="tab-content">
+      <div class="card">
+        <div class="card-title">
+          <span class="icon">🏠</span>
+          <span>Dương Trạch Tam Yếu (Môn - Chủ - Táo)</span>
+        </div>
+        <p style="font-size:12.5px; color:var(--text-secondary); line-height:1.5; margin-bottom:14px;">
+          Sách <em>Dương Trạch Tam Yếu</em> coi <strong>Cửa chính (Môn)</strong>, <strong>Phòng ngủ gia chủ (Chủ)</strong> và <strong>Bếp nấu (Táo)</strong> là 3 yếu tố quyết định 80% thịnh suy của một ngôi nhà.
+        </p>
+
+        <div style="background:var(--bg-input); padding:12px; border-radius:8px; border-left:3px solid var(--wood-accent); margin-bottom:14px;">
+          <div style="font-weight:700; color:var(--wood-accent); font-size:13px;">🔥 Nguyên Tắc: "TỌA HUNG HƯỚNG CÁT" CỦA BẾP</div>
+          <p style="font-size:12px; color:var(--text-muted); margin-top:4px;">
+            Bếp nấu thuộc Hỏa, có sức mạnh thiêu đốt. Do đó cần đặt bếp nằm trên cung xấu để đốt cháy điềm hung; nhưng mặt bếp (miệng bếp) phải hướng về cung tốt của gia chủ để nạp sinh khí.
+          </p>
+        </div>
+
+        <div class="card-title" style="font-size:13.5px; margin-top:16px;">
+          <span>Bảng Tọa Hung Hướng Cát Cho Từng Mệnh</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; text-align:left; font-size:12px;">
+            <thead>
+              <tr style="background:var(--bg-elevated); color:var(--wood-accent);">
+                <th style="padding:8px; border-bottom:1px solid var(--wood-border);">Cung Mệnh</th>
+                <th style="padding:8px; border-bottom:1px solid var(--wood-border);">Tọa Bếp (Cung Xấu)</th>
+                <th style="padding:8px; border-bottom:1px solid var(--wood-border);">Hướng Bếp (Cung Tốt)</th>
+              </tr>
+            </thead>
+            <tbody id="bepMappingTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TAB 4: KINH DỊCH 64 QUẺ ── -->
+    <section id="tab-iching" class="tab-content">
+      <div class="card">
+        <div class="card-title">
+          <span class="icon">📜</span>
+          <span>Tra Cứu 64 Quẻ Kinh Dịch</span>
+        </div>
+        
+        <div class="search-bar">
+          <input type="text" id="ichingSearch" class="search-input" placeholder="🔍 Nhập tên quẻ, số quẻ (VD: Thuần Càn, 1, Thái...)">
+        </div>
+
+        <div id="ichingGrid" class="iching-grid"></div>
+      </div>
+    </section>
+
+    <!-- ── TAB 5: HÓA GIẢI SÁT KHÍ ── -->
+    <section id="tab-satkhi" class="tab-content">
+      <div class="card">
+        <div class="card-title">
+          <span class="icon">🛡️</span>
+          <span>Nhận Diện & Hóa Giải Các Thế Sát</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
+          Các thế sát ngoại cảnh xung quanh ngôi nhà có thể triệt tiêu vượng khí. Dưới đây là phương pháp chế ngự sát khí cổ truyền bằng vật phẩm phong thủy.
+        </p>
+
+        <div id="satKhiList"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL CHI TIẾT QUẺ KINH DỊCH -->
+  <div id="ichingModal" class="modal-overlay">
+    <div class="modal-box">
+      <button id="modalClose" class="modal-close">&times;</button>
+      <div id="modalTitle" style="font-size:17px; font-weight:800; color:var(--wood-accent); margin-bottom:12px;"></div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

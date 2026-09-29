@@ -3,10 +3,10 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../../core/constants/app_colors.dart';
 
 class LookupWebViewScreen extends StatefulWidget {
-  final String initialUrl;
+  final String? onlineUrl;
   const LookupWebViewScreen({
     super.key,
-    this.initialUrl = 'https://fengshui-lookup-placeholder.web.app',
+    this.onlineUrl,
   });
 
   @override
@@ -18,6 +18,7 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
   late final WebViewController _controller;
   int _loadingProgress = 0;
   bool _hasError = false;
+  bool _isOnlineMode = false;
 
   @override
   bool get wantKeepAlive => true; // Keep state when switching navigation tabs
@@ -46,8 +47,39 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
         onMessageReceived: (message) {
           debugPrint('PWA message: ${message.message}');
         },
-      )
-      ..loadRequest(Uri.parse(widget.initialUrl));
+      );
+
+    _loadContent();
+  }
+
+  void _loadContent() {
+    if (_isOnlineMode && widget.onlineUrl != null && widget.onlineUrl!.isNotEmpty) {
+      _controller.loadRequest(Uri.parse(widget.onlineUrl!));
+    } else {
+      // Tải webapp tra cứu Bát Quái Phong Thuỷ tích hợp sẵn trong assets
+      _controller.loadFlutterAsset('assets/web/index.html');
+    }
+  }
+
+  void _toggleSource() {
+    setState(() {
+      _isOnlineMode = !_isOnlineMode;
+      _hasError = false;
+      _loadingProgress = 0;
+    });
+    _loadContent();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          _isOnlineMode
+              ? 'Đang kết nối cổng tra cứu trực tuyến'
+              : 'Đang dùng cổng tra cứu phong thuỷ tích hợp (Offline)',
+          style: const TextStyle(color: AppColors.ivoryWhite),
+        ),
+        backgroundColor: AppColors.surfaceElevated,
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 
   @override
@@ -56,14 +88,30 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
     return Scaffold(
       backgroundColor: AppColors.darkBackground,
       appBar: AppBar(
-        title: const Text('Tra Cứu Bát Quái & Phong Thuỷ', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.ivoryWhite)),
+        title: const Text(
+          'Tra Cứu Bát Quái Phong Thuỷ',
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.ivoryWhite, fontSize: 16.5),
+        ),
         backgroundColor: AppColors.surfaceCard,
         elevation: 0,
         actions: [
+          // Nút chuyển đổi giữa bản tích hợp & bản trực tuyến (nếu có cấu hình onlineUrl)
+          if (widget.onlineUrl != null && widget.onlineUrl!.isNotEmpty)
+            IconButton(
+              icon: Icon(
+                _isOnlineMode ? Icons.cloud_outlined : Icons.offline_pin_outlined,
+                color: AppColors.woodAccent,
+              ),
+              tooltip: _isOnlineMode ? 'Bản Online' : 'Bản Tích hợp',
+              onPressed: _toggleSource,
+            ),
           IconButton(
             icon: const Icon(Icons.refresh, color: AppColors.woodAccent),
             tooltip: 'Tải lại trang',
-            onPressed: () => _controller.reload(),
+            onPressed: () {
+              setState(() => _hasError = false);
+              _loadContent();
+            },
           ),
         ],
       ),
@@ -86,7 +134,7 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Vui lòng kiểm tra kết nối mạng của thiết bị và thử lại.',
+                      'Chuyển sang bản tra cứu phong thuỷ tích hợp sẵn trong ứng dụng để tiếp tục.',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white54, fontSize: 14),
                     ),
@@ -97,9 +145,15 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
                         foregroundColor: const Color(0xFF141414),
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       ),
-                      onPressed: () => _controller.reload(),
-                      icon: const Icon(Icons.refresh),
-                      label: const Text('Thử lại', style: TextStyle(fontWeight: FontWeight.bold)),
+                      onPressed: () {
+                        setState(() {
+                          _isOnlineMode = false;
+                          _hasError = false;
+                        });
+                        _loadContent();
+                      },
+                      icon: const Icon(Icons.auto_stories_outlined),
+                      label: const Text('Mở Bản Tra Cứu Tích Hợp', style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
