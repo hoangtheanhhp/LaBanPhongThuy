@@ -85,17 +85,32 @@ class LunarDayCell extends StatelessWidget {
                       ),
                     ),
 
-                    // Chấm Hoàng Đạo (Đỏ/Vàng) hoặc Hắc Đạo (Xám)
-                    Container(
-                      margin: const EdgeInsets.only(top: 2),
-                      width: 5.5,
-                      height: 5.5,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: lunarDate.isHoangDao
-                            ? const Color(0xFFE53935) // Chấm đỏ Hoàng Đạo chuẩn ảnh mẫu
-                            : const Color(0xFF6E6864), // Chấm xám Hắc Đạo chuẩn ảnh mẫu
-                      ),
+                    // Cụm chấm chỉ báo: Kỵ dân gian (Cam) & Hoàng/Hắc Đạo (Đỏ/Xám)
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (lunarDate.hasTaboo)
+                          Container(
+                            margin: const EdgeInsets.only(top: 2, right: 3),
+                            width: 4.5,
+                            height: 4.5,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xFFFFB74D), // Chấm cam báo Tam Nương / Nguyệt Kỵ
+                            ),
+                          ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 2),
+                          width: 5.5,
+                          height: 5.5,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: lunarDate.isHoangDao
+                                ? const Color(0xFFE53935) // Chấm đỏ Hoàng Đạo
+                                : const Color(0xFF6E6864), // Chấm xám Hắc Đạo
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

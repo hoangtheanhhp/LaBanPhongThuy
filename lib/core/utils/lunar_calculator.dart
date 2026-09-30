@@ -25,6 +25,7 @@ class LunarDate {
   final List<String> goodFor; // Việc nên làm
   final List<String> badFor; // Việc nên kiêng
   final String xungTuoi; // Tuổi xung khắc trong ngày
+  final List<String> tabooNotes; // Các ngày đại kỵ: Tam Nương, Nguyệt Kỵ, Sát Chủ...
 
   const LunarDate({
     required this.solarDay,
@@ -47,7 +48,11 @@ class LunarDate {
     required this.goodFor,
     required this.badFor,
     required this.xungTuoi,
+    required this.tabooNotes,
   });
+
+  /// Kiểm tra có phạm ngày kỵ dân gian không
+  bool get hasTaboo => tabooNotes.isNotEmpty;
 
   /// Chuỗi hiển thị ngày âm: ví dụ "20/11" hoặc "1/12 (Nhuận)"
   String get shortLunarText {
@@ -483,6 +488,7 @@ class LunarCalculator {
     Map<String, String> directions = getDirections(dayCanIdx);
     String xungTuoi = getXungTuoi(dayChiIdx, dayCanIdx);
     Map<String, List<String>> activities = getGoodBadActivities(isHoangDao, trucIdx);
+    List<String> tabooNotes = getTabooDays(lDay, lMonth, dayChiIdx, dayCanIdx);
 
     return LunarDate(
       solarDay: dd,
@@ -505,6 +511,237 @@ class LunarCalculator {
       goodFor: activities['good']!,
       badFor: activities['bad']!,
       xungTuoi: xungTuoi,
+      tabooNotes: tabooNotes,
+    );
+  }
+
+  /// Kiểm tra các ngày đại kỵ dân gian (Tam Nương, Nguyệt Kỵ, Sát Chủ, Thọ Tử...)
+  static List<String> getTabooDays(int lDay, int lMonth, int dayChiIdx, int dayCanIdx) {
+    List<String> notes = [];
+
+    // 1. Ngày Tam Nương: Mùng 3, 7, 13, 18, 22, 27 âm lịch
+    const tamNuongDays = {3, 7, 13, 18, 22, 27};
+    if (tamNuongDays.contains(lDay)) {
+      notes.add('Tam Nương (Kỵ xuất hành, cưới hỏi, khởi sự)');
+    }
+
+    // 2. Ngày Nguyệt Kỵ: Mùng 5, 14, 23 âm lịch
+    const nguyetKyDays = {5, 14, 23};
+    if (nguyetKyDays.contains(lDay)) {
+      notes.add('Nguyệt Kỵ ("Mồng năm, mười bốn, hai ba")');
+    }
+
+    // 3. Ngày Dương Công Kỵ Nhật
+    const Map<int, Set<int>> duongCongKy = {
+      1: {13}, 2: {11}, 3: {9}, 4: {7}, 5: {5}, 6: {3},
+      7: {8, 29}, 8: {27}, 9: {25}, 10: {23}, 11: {21}, 12: {19}
+    };
+    if (duongCongKy[lMonth]?.contains(lDay) ?? false) {
+      notes.add('Dương Công Kỵ Nhật (Đại hung vạn sự)');
+    }
+
+    // 4. Ngày Sát Chủ theo tháng âm lịch
+    const Map<int, int> satChuMap = {
+      1: 5,   // Tỵ
+      2: 0,   // Tý
+      3: 7,   // Mùi
+      4: 3,   // Mão
+      5: 8,   // Thân
+      6: 10,  // Tuất
+      7: 11,  // Hợi
+      8: 1,   // Sửu
+      9: 6,   // Ngọ
+      10: 9,  // Dậu
+      11: 2,  // Dần
+      12: 4,  // Thìn
+    };
+    if (satChuMap[lMonth] == dayChiIdx) {
+      notes.add('Sát Chủ (Kỵ động thổ, cưới gả, cất nóc)');
+    }
+
+    // 5. Ngày Thọ Tử theo tháng âm lịch
+    const Map<int, int> thoTuChiMap = {
+      1: 10, 2: 4, 3: 11, 4: 5, 5: 0, 6: 6,
+      7: 1, 8: 7, 9: 2, 10: 8, 11: 3, 12: 9,
+    };
+    if (thoTuChiMap[lMonth] == dayChiIdx) {
+      notes.add('Thọ Tử (Trăm sự nên kiêng)');
+    }
+
+    return notes;
+  }
+
+  /// Tính tuổi làm nhà chuẩn Tam Tai, Kim Lâu, Hoang Ốc
+  static BuildingAgeResult calculateBuildingAge(int birthYear, int buildYear) {
+    int lunarAge = buildYear - birthYear + 1;
+    int birthChi = (birthYear + 8) % 12;
+    int buildChi = (buildYear + 8) % 12;
+
+    String canChiBirth = getCanChiYear(birthYear);
+    String canChiBuild = getCanChiYear(buildYear);
+
+    // 1. Tam Tai
+    const Map<int, List<int>> tamTaiMap = {
+      0: [2, 3, 4], 4: [2, 3, 4], 8: [2, 3, 4],     // Thân - Tý - Thìn gặp Dần - Mão - Thìn
+      2: [8, 9, 10], 6: [8, 9, 10], 10: [8, 9, 10], // Dần - Ngọ - Tuất gặp Thân - Dậu - Tuất
+      5: [11, 0, 1], 9: [11, 0, 1], 1: [11, 0, 1],   // Tỵ - Dậu - Sửu gặp Hợi - Tý - Sửu
+      11: [5, 6, 7], 3: [5, 6, 7], 7: [5, 6, 7],     // Hợi - Mão - Mùi gặp Tỵ - Ngọ - Mùi
+    };
+    bool isTamTai = tamTaiMap[birthChi]?.contains(buildChi) ?? false;
+    String tamTaiDesc = isTamTai
+        ? 'Phạm Tam Tai trong năm $canChiBuild. Dễ gặp rủi ro công việc, bất trắc sức khỏe.'
+        : 'Không phạm Tam Tai. Năm làm nhà thuận hòa với tuổi gia chủ.';
+
+    // 2. Kim Lâu
+    int klRem = lunarAge % 9;
+    bool isKimLau = (klRem == 1 || klRem == 3 || klRem == 6 || klRem == 8);
+    String kimLauType = 'Không phạm';
+    String kimLauDesc = 'Không phạm Kim Lâu. Rất cát lợi để xây cất nhà cửa.';
+    if (klRem == 1) {
+      kimLauType = 'Kim Lâu Thân';
+      kimLauDesc = 'Phạm Kim Lâu Thân: Gây hại trực tiếp cho chính bản thân gia chủ.';
+    } else if (klRem == 3) {
+      kimLauType = 'Kim Lâu Thê';
+      kimLauDesc = 'Phạm Kim Lâu Thê: Gây hại cho người vợ trong gia đình.';
+    } else if (klRem == 6) {
+      kimLauType = 'Kim Lâu Tử';
+      kimLauDesc = 'Phạm Kim Lâu Tử: Gây hại hoặc trắc trở đường con cái.';
+    } else if (klRem == 8) {
+      kimLauType = 'Kim Lâu Súc';
+      kimLauDesc = 'Phạm Kim Lâu Lục Súc: Hao tổn kinh tế, chăn nuôi, thất thoát tài sản.';
+    }
+
+    // 3. Hoang Ốc
+    int tens = lunarAge ~/ 10;
+    int units = lunarAge % 10;
+    int hoangOcIndex = ((tens - 1 + units) % 6) + 1;
+
+    String hoangOcPalace = '';
+    bool isHoangOcGood = false;
+    String hoangOcDesc = '';
+
+    switch (hoangOcIndex) {
+      case 1:
+        hoangOcPalace = 'Nhất Cát';
+        isHoangOcGood = true;
+        hoangOcDesc = 'Làm nhà tuổi này chốn an cư vững chãi, vạn sự hanh thông, phúc lộc dồi dào.';
+        break;
+      case 2:
+        hoangOcPalace = 'Nhì Nghi';
+        isHoangOcGood = true;
+        hoangOcDesc = 'Làm nhà tuổi này giàu sang hưng vượng, gia nghiệp phát triển rực rỡ.';
+        break;
+      case 3:
+        hoangOcPalace = 'Tam Địa Sát';
+        isHoangOcGood = false;
+        hoangOcDesc = 'Phạm Địa Sát: Gia chủ dễ ốm đau bệnh tật, tổn thất nhân đinh.';
+        break;
+      case 4:
+        hoangOcPalace = 'Tứ Tấn Tài';
+        isHoangOcGood = true;
+        hoangOcDesc = 'Làm nhà tuổi này đón nhận tài lộc tấn tới, phước đức ngập tràn.';
+        break;
+      case 5:
+        hoangOcPalace = 'Ngũ Thọ Tử';
+        isHoangOcGood = false;
+        hoangOcDesc = 'Phạm Thọ Tử: Gia đình ly tán, sinh ly tử biệt, mâu thuẫn bất hòa.';
+        break;
+      case 6:
+      default:
+        hoangOcPalace = 'Lục Hoang Ốc';
+        isHoangOcGood = false;
+        hoangOcDesc = 'Phạm Hoang Ốc: Ngôi nhà khó hoàn thành, vướng mắc thị phi, nghèo khó.';
+        break;
+    }
+
+    // Tổng kết
+    bool canBuild = !isTamTai && !isKimLau && isHoangOcGood;
+    String overallConclusion = canBuild
+        ? 'Năm $buildYear ($canChiBuild) là NĂM ĐẠI CÁT để bạn khởi công xây nhà! Tuổi $lunarAge không phạm Tam Tai, Kim Lâu và được cung Hoang Ốc tốt lành.'
+        : 'Năm $buildYear ($canChiBuild) tuổi của bạn ${isKimLau ? "phạm $kimLauType" : (isTamTai ? "phạm Tam Tai" : "phạm Hoang Ốc ($hoangOcPalace)")}. Để quá trình xây dựng suôn sẻ, bạn NÊN MƯỢN TUỔI người hợp năm để động thổ.';
+
+    // Tìm các năm sinh mượn tuổi đẹp trong năm xây dựng
+    List<int> candidateYears = [
+      1955, 1957, 1960, 1963, 1966, 1969, 1972, 1975, 1978, 1981, 1984, 1987, 1990, 1993, 1996
+    ];
+    List<int> suggestedBorrowYears = [];
+    for (int yr in candidateYears) {
+      int age = buildYear - yr + 1;
+      int chi = (yr + 8) % 12;
+      bool tt = tamTaiMap[chi]?.contains(buildChi) ?? false;
+      int kl = age % 9;
+      bool klBad = (kl == 1 || kl == 3 || kl == 6 || kl == 8);
+      int t = age ~/ 10;
+      int u = age % 10;
+      int ho = ((t - 1 + u) % 6) + 1;
+      bool hoGood = (ho == 1 || ho == 2 || ho == 4);
+
+      if (!tt && !klBad && hoGood) {
+        suggestedBorrowYears.add(yr);
+      }
+    }
+
+    return BuildingAgeResult(
+      birthYear: birthYear,
+      buildYear: buildYear,
+      lunarAge: lunarAge,
+      canChiBirth: canChiBirth,
+      canChiBuild: canChiBuild,
+      isTamTai: isTamTai,
+      tamTaiDesc: tamTaiDesc,
+      isKimLau: isKimLau,
+      kimLauType: kimLauType,
+      kimLauDesc: kimLauDesc,
+      isHoangOcGood: isHoangOcGood,
+      hoangOcPalace: hoangOcPalace,
+      hoangOcDesc: hoangOcDesc,
+      canBuild: canBuild,
+      overallConclusion: overallConclusion,
+      suggestedBorrowYears: suggestedBorrowYears,
     );
   }
 }
+
+/// Kết quả tra cứu tuổi làm nhà
+class BuildingAgeResult {
+  final int birthYear;
+  final int buildYear;
+  final int lunarAge; // Tuổi mụ
+  final String canChiBirth;
+  final String canChiBuild;
+
+  final bool isTamTai;
+  final String tamTaiDesc;
+
+  final bool isKimLau;
+  final String kimLauType;
+  final String kimLauDesc;
+
+  final bool isHoangOcGood;
+  final String hoangOcPalace;
+  final String hoangOcDesc;
+
+  final bool canBuild;
+  final String overallConclusion;
+  final List<int> suggestedBorrowYears;
+
+  const BuildingAgeResult({
+    required this.birthYear,
+    required this.buildYear,
+    required this.lunarAge,
+    required this.canChiBirth,
+    required this.canChiBuild,
+    required this.isTamTai,
+    required this.tamTaiDesc,
+    required this.isKimLau,
+    required this.kimLauType,
+    required this.kimLauDesc,
+    required this.isHoangOcGood,
+    required this.hoangOcPalace,
+    required this.hoangOcDesc,
+    required this.canBuild,
+    required this.overallConclusion,
+    required this.suggestedBorrowYears,
+  });
+}
+

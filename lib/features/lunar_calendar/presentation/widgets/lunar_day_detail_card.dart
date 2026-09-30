@@ -136,6 +136,35 @@ class LunarDayDetailCard extends StatelessWidget {
           const Divider(color: AppColors.woodBorder, height: 1, thickness: 0.4),
           const SizedBox(height: 12),
 
+          // ── Cảnh báo ngày đại kỵ dân gian (nếu có) ───────────
+          if (lunarDate.hasTaboo) ...[
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              decoration: BoxDecoration(
+                color: const Color(0xFF2C1814),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: const Color(0xFFE57373).withOpacity(0.5)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.warning_amber_rounded, color: Color(0xFFE57373), size: 18),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Ngày kỵ: ${lunarDate.tabooNotes.join(" · ")}',
+                      style: const TextStyle(
+                        color: Color(0xFFEF9A9A),
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+          ],
+
           // ── Ba Trụ Can Chi ───────────────────────────────────
           Row(
             children: [
