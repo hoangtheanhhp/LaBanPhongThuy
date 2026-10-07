@@ -45,6 +45,10 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
   final List<Widget> _pages = const [
     CompassScreen(),
     LunarCalendarScreen(),
+    LookupWebViewScreen(
+      title: 'Xổ Số Miền Bắc (XSMB)',
+      initialTab: 'xsmb',
+    ),
     LookupWebViewScreen(),
   ];
 
@@ -60,6 +64,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
         backgroundColor: AppColors.surfaceCard,
         selectedItemColor: AppColors.woodAccent,
         unselectedItemColor: Colors.white38,
+        type: BottomNavigationBarType.fixed,
         onTap: (index) => setState(() => _currentIndex = index),
         items: const [
           BottomNavigationBarItem(
@@ -71,6 +76,11 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             icon: Icon(Icons.calendar_month_outlined),
             activeIcon: Icon(Icons.calendar_month),
             label: 'Lịch Âm',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.confirmation_number_outlined),
+            activeIcon: Icon(Icons.confirmation_number),
+            label: 'XSMB',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu_book_outlined),

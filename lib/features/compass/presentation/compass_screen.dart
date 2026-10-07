@@ -7,6 +7,7 @@ import '../../../core/utils/compass_math.dart';
 import 'widgets/bagua_dial.dart';
 import 'widgets/cung_info_panel.dart';
 import 'widgets/bat_trach_detail_sheet.dart';
+import '../../lookup_webview/presentation/lookup_webview_screen.dart';
 
 class CompassScreen extends StatefulWidget {
   const CompassScreen({super.key});
@@ -280,6 +281,21 @@ class _CompassScreenState extends State<CompassScreen> {
                   ),
                   backgroundColor: AppColors.surfaceElevated,
                   duration: const Duration(seconds: 2),
+                ),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.confirmation_number_outlined, color: AppColors.woodAccent),
+            tooltip: 'Xem Kết Quả Xổ Số Miền Bắc',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const LookupWebViewScreen(
+                    title: 'Xổ Số Miền Bắc (XSMB)',
+                    initialTab: 'xsmb',
+                  ),
                 ),
               );
             },

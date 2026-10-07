@@ -4,9 +4,14 @@ import '../../../core/constants/app_colors.dart';
 
 class LookupWebViewScreen extends StatefulWidget {
   final String onlineUrl;
+  final String title;
+  final String? initialTab;
+
   const LookupWebViewScreen({
     super.key,
     this.onlineUrl = 'https://labanphongthuy-web.pages.dev/',
+    this.title = 'Tra Cứu Bát Quái Phong Thuỷ',
+    this.initialTab,
   });
 
   @override
@@ -54,7 +59,12 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
 
   void _loadContent() {
     if (_isOnlineMode && widget.onlineUrl.isNotEmpty) {
-      _controller.loadRequest(Uri.parse(widget.onlineUrl));
+      String targetUrl = widget.onlineUrl;
+      if (widget.initialTab != null && widget.initialTab!.isNotEmpty) {
+        final separator = targetUrl.contains('?') ? '&' : '?';
+        targetUrl = '$targetUrl${separator}tab=${widget.initialTab}';
+      }
+      _controller.loadRequest(Uri.parse(targetUrl));
     } else {
       // Tải webapp tra cứu Bát Quái Phong Thuỷ tích hợp sẵn trong assets
       _controller.loadFlutterAsset('assets/web/index.html');
@@ -72,8 +82,8 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
       SnackBar(
         content: Text(
           _isOnlineMode
-              ? 'Đang kết nối cổng tra cứu trực tuyến'
-              : 'Đang dùng cổng tra cứu phong thuỷ tích hợp (Offline)',
+              ? 'Đang kết nối cổng trực tuyến'
+              : 'Đang dùng cổng tích hợp offline',
           style: const TextStyle(color: AppColors.ivoryWhite),
         ),
         backgroundColor: AppColors.surfaceElevated,
@@ -88,9 +98,9 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
     return Scaffold(
       backgroundColor: AppColors.darkBackground,
       appBar: AppBar(
-        title: const Text(
-          'Tra Cứu Bát Quái Phong Thuỷ',
-          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.ivoryWhite, fontSize: 16.5),
+        title: Text(
+          widget.title,
+          style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.ivoryWhite, fontSize: 16.5),
         ),
         backgroundColor: AppColors.surfaceCard,
         elevation: 0,
