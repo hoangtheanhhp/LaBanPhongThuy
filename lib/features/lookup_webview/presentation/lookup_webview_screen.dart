@@ -3,10 +3,10 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../../core/constants/app_colors.dart';
 
 class LookupWebViewScreen extends StatefulWidget {
-  final String? onlineUrl;
+  final String onlineUrl;
   const LookupWebViewScreen({
     super.key,
-    this.onlineUrl,
+    this.onlineUrl = 'https://labanphongthuy-web.pages.dev/',
   });
 
   @override
@@ -18,7 +18,7 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
   late final WebViewController _controller;
   int _loadingProgress = 0;
   bool _hasError = false;
-  bool _isOnlineMode = false;
+  bool _isOnlineMode = true;
 
   @override
   bool get wantKeepAlive => true; // Keep state when switching navigation tabs
@@ -53,8 +53,8 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
   }
 
   void _loadContent() {
-    if (_isOnlineMode && widget.onlineUrl != null && widget.onlineUrl!.isNotEmpty) {
-      _controller.loadRequest(Uri.parse(widget.onlineUrl!));
+    if (_isOnlineMode && widget.onlineUrl.isNotEmpty) {
+      _controller.loadRequest(Uri.parse(widget.onlineUrl));
     } else {
       // Tải webapp tra cứu Bát Quái Phong Thuỷ tích hợp sẵn trong assets
       _controller.loadFlutterAsset('assets/web/index.html');
@@ -96,7 +96,7 @@ class _LookupWebViewScreenState extends State<LookupWebViewScreen>
         elevation: 0,
         actions: [
           // Nút chuyển đổi giữa bản tích hợp & bản trực tuyến (nếu có cấu hình onlineUrl)
-          if (widget.onlineUrl != null && widget.onlineUrl!.isNotEmpty)
+          if (widget.onlineUrl.isNotEmpty)
             IconButton(
               icon: Icon(
                 _isOnlineMode ? Icons.cloud_outlined : Icons.offline_pin_outlined,
