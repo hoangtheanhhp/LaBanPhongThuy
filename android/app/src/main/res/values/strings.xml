@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">La Bàn Phong Thuỷ</string>
+    <string name="widget_lunar_name">Lịch Âm &amp; Giờ Hoàng Đạo</string>
+    <string name="widget_lunar_desc">Xem nhanh ngày Âm lịch, Can Chi và Giờ Hoàng Đạo trên màn hình chính.</string>
+    <string name="widget_xsmb_name">Xổ Số Miền Bắc (XSMB)</string>
+    <string name="widget_xsmb_desc">Xem nhanh kết quả XSMB và giải đặc biệt trên màn hình chính.</string>
+</resources>

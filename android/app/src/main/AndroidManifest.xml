@@ -28,6 +28,33 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- Lunar Calendar AppWidget Receiver -->
+        <receiver
+            android:name=".LunarCalendarWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_lunar_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_lunar_calendar_info" />
+        </receiver>
+
+        <!-- XSMB AppWidget Receiver -->
+        <receiver
+            android:name=".XSMBWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_xsmb_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_xsmb_info" />
+        </receiver>
+
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
