@@ -43,12 +43,12 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = const [
-    CompassScreen(),
-    LunarCalendarScreen(),
     LookupWebViewScreen(
       title: 'Xổ Số Miền Bắc (XSMB)',
       initialTab: 'xsmb',
     ),
+    CompassScreen(),
+    LunarCalendarScreen(),
     LookupWebViewScreen(),
   ];
 
@@ -68,6 +68,11 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
         onTap: (index) => setState(() => _currentIndex = index),
         items: const [
           BottomNavigationBarItem(
+            icon: Icon(Icons.confirmation_number_outlined),
+            activeIcon: Icon(Icons.confirmation_number),
+            label: 'XSMB',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.explore_outlined),
             activeIcon: Icon(Icons.explore),
             label: 'La Bàn',
@@ -76,11 +81,6 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             icon: Icon(Icons.calendar_month_outlined),
             activeIcon: Icon(Icons.calendar_month),
             label: 'Lịch Âm',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.confirmation_number_outlined),
-            activeIcon: Icon(Icons.confirmation_number),
-            label: 'XSMB',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu_book_outlined),
