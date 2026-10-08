@@ -8,6 +8,7 @@ import 'widgets/bagua_dial.dart';
 import 'widgets/cung_info_panel.dart';
 import 'widgets/bat_trach_detail_sheet.dart';
 import '../../lookup_webview/presentation/lookup_webview_screen.dart';
+import '../../../core/services/local_storage_service.dart';
 
 class CompassScreen extends StatefulWidget {
   const CompassScreen({super.key});
@@ -35,7 +36,19 @@ class _CompassScreenState extends State<CompassScreen> {
   @override
   void initState() {
     super.initState();
+    _loadSavedUserProfile();
     _startCompassStream();
+  }
+
+  Future<void> _loadSavedUserProfile() async {
+    final profile = await LocalStorageService.loadUserProfile();
+    if (profile != null && mounted) {
+      setState(() {
+        _selectedYear = profile.birthYear;
+        _selectedGender = profile.gender;
+        _activeCungPhi = BatTrachCalculator.calculateCungPhi(_selectedYear, _selectedGender);
+      });
+    }
   }
 
   void _startCompassStream() {
@@ -202,6 +215,11 @@ class _CompassScreenState extends State<CompassScreen> {
                     label: const Text('Áp dụng vào La Bàn',
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                     onPressed: () {
+                      final profile = UserProfile(
+                        birthYear: year,
+                        gender: gender,
+                      );
+                      LocalStorageService.saveUserProfile(profile);
                       setState(() {
                         _activeCungPhi = cung;
                         _selectedYear = year;
